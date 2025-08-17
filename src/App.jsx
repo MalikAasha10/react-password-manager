@@ -2,13 +2,16 @@ import { useState } from 'react'
 import reactLogo from './assets/react.svg'
 import viteLogo from '/vite.svg'
 import './App.css'
+import Navabar from './components/Navabar'
+import Manager from './components/Manager'
 
 function App() {
   const [count, setCount] = useState(0)
 
   return (
     <>
-      <h1 className='bg-red-400'>Password </h1>
+     <Navabar />
+     <Manager/>
     </>
   )
 }
