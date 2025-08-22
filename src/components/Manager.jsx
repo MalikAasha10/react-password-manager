@@ -77,7 +77,31 @@ console.log(...passwordArray,form);
             ></lord-icon>Add Password</button>
 
         </div>
-
+<div className="password">
+  <h2 className='py-4 font-bold text-2xl'>Your Password</h2> 
+  {passwordArray.length ===0 &&  <div>No Passwords Saved Yet</div>}
+  {passwordArray.length !=0 &&  <table className="table-auto w-full overflow-hidden rounded-md">
+  <thead className='bg-green-800 text-white'>
+    <tr>
+       <th className='py-2'>Site</th>
+       <th className='py-2'>Username</th>
+       <th className='py-2'>Password</th>
+    </tr>
+  </thead>
+  <tbody className='bg-green-100'>
+    {passwordArray.map((item,index)=>{
+return <tr key={index}>
+      <td className=' py-2 border-white text-center w-32'><a href={item.site} target='_blank'>{item.site}</a></td>
+      <td className=' py-2 border-white text-center w-32'>{item.username}</td>
+      <td className=' py-2 border-white text-center w-32'>{item.password}</td>
+    </tr>
+    })}
+    
+  </tbody>
+</table>
+}
+ 
+</div>
       </div>
     </>
   )
