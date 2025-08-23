@@ -12,13 +12,19 @@ const Navabar = () => {
 
 
         </div>
-        <ul>
+        {/* <ul>
           <li className='flex gap-4'>
             <a className='hover:font-bold' href="/">Home</a>
             <a className='hover:font-bold' href="#">About</a>
             <a className='hover:font-bold' href="#">Contact</a>
           </li>
-        </ul>
+        </ul> */}
+        <button className='bg-green-500  rounded-full text-white my-5 flex justify-between items-center  '>
+          <img className='invert p-1 w-10  '
+            src="/icons/github.svg" alt="github log0" />
+            <span className='font-bold px-2'>Github</span>
+        
+        </button>
       </div>
     </nav>
 
