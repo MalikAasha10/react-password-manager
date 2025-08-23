@@ -4,6 +4,7 @@ import viteLogo from '/vite.svg'
 import './App.css'
 import Navabar from './components/Navabar'
 import Manager from './components/Manager'
+import Footer from './components/Footer'
 
 function App() {
   const [count, setCount] = useState(0)
@@ -11,7 +12,11 @@ function App() {
   return (
     <>
      <Navabar />
-     <Manager/>
+     <div className='min-h-[87vh]'>  
+      <Manager/>
+     </div>
+    <Footer /> 
+   
     </>
   )
 }

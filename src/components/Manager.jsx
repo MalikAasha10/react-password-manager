@@ -1,37 +1,44 @@
 import React from 'react'
-import { useRef,useState,useEffect } from 'react'
+import { useRef, useState, useEffect } from 'react'
 const Manager = () => {
   const eyeRef = useRef(null);
+  const passRef = useRef(null);
   const [form, setform] = useState({ site: "", username: "", password: "" });
   const [passwordArray, setPasswordArray] = useState([])
   useEffect(() => {
-    let password= localStorage.getItem("password");
-    if(password){
+    let password = localStorage.getItem("password");
+    if (password) {
       setPasswordArray(JSON.parse(password))
     }
   }, [])
-  
-const showPassword = (params) => {
-  
-      alert("Show Password Clicked")
-      if (eyeRef.current.src.includes("icons/eyecross.png")) {
-        eyeRef.current.src = "icons/eye.png";
-      }
-      else{
-        eyeRef.current.src = "icons/eyecross.png";
-      }
+
+  const showPassword = (params) => {
+
+    passRef.current.type = 'text';
+    if (eyeRef.current.src.includes("icons/eyecross.png")) {
+      eyeRef.current.src = "icons/eye.png";
+      passRef.current.type = 'text';
     }
-const savePassword=()=>{
-  setPasswordArray([...passwordArray,form])
-  localStorage.setItem("password",JSON.stringify([...passwordArray,form]))
-console.log(...passwordArray,form);
-} 
+    else {
+      eyeRef.current.src = "icons/eyecross.png";
+      passRef.current.type = 'password';
+    }
+  }
+  const savePassword = () => {
+    setPasswordArray([...passwordArray, form])
+    localStorage.setItem("password", JSON.stringify([...passwordArray, form]))
+    console.log(...passwordArray, form);
+  }
   const handleChange = (e) => {
-    setform({...form, [e.target.name]: e.target.value})
+    setform({ ...form, [e.target.name]: e.target.value })
+  }
+
+  const copyText = (text) => {
+    navigator.clipboard.writeText(text)
   }
   return (
-    
-    
+
+
     <>
       <div className="absolute inset-0 -z-10 h-full w-full
        bg-green-50 bg-[linear-gradient(to_right,#8080800a_1px,transparent_1px),
@@ -49,21 +56,21 @@ console.log(...passwordArray,form);
         </h1>
         <p className='text-green-700 text-lg text-center'>Your Own Password Manager</p>
         <div className='text-black flex flex-col p-4 gap-8 items-center'>
-          <input value={form.site} onChange={handleChange} className=' bg-white rounded-full border border-green-500 w-full px-4 py-1 gap-8 justify-between ' 
-          type="text" placeholder='Enter Website URL' name="site" id="site" />
+          <input value={form.site} onChange={handleChange} className=' bg-white rounded-full border border-green-500 w-full px-4 py-1 gap-8 justify-between '
+            type="text" placeholder='Enter Website URL' name="site" id="site" />
           <div className="flex w-full gap-8 justify-between  ">
             <input value={form.username} onChange={handleChange} className=' bg-white rounded-full border border-green-500 w-full px-4 py-1'
-            
-            placeholder='Enter Username' type="text" name="username" id="username" />
-             <div className="relative">
 
-            <input value={form.password}   onChange={handleChange} className=' bg-white rounded-full border border-green-500 w-full px-4 py-1' 
-            placeholder='Enter Password' type="text" name="password" id="password" />
-            <span  className='absolute right-[3px] top-[4px] cursor-pointer' onClick={showPassword}>
-               <img ref={eyeRef} className='p-1' width={26} src="icons/eye.png" alt="eye"  />
-            </span>
-           
-             </div>
+              placeholder='Enter Username' type="text" name="username" id="username" />
+            <div className="relative">
+
+              <input ref={passRef} value={form.password} onChange={handleChange} className=' bg-white rounded-full border border-green-500 w-full px-4 py-1'
+                placeholder='Enter Password' type="password" name="password" id="password" />
+              <span className='absolute right-[3px] top-[4px] cursor-pointer' onClick={showPassword}>
+                <img ref={eyeRef} className='p-1' width={26} src="icons/eye.png" alt="eye" />
+              </span>
+
+            </div>
 
 
           </div>
@@ -77,31 +84,64 @@ console.log(...passwordArray,form);
             ></lord-icon>Add Password</button>
 
         </div>
-<div className="password">
-  <h2 className='py-4 font-bold text-2xl'>Your Password</h2> 
-  {passwordArray.length ===0 &&  <div>No Passwords Saved Yet</div>}
-  {passwordArray.length !=0 &&  <table className="table-auto w-full overflow-hidden rounded-md">
-  <thead className='bg-green-800 text-white'>
-    <tr>
-       <th className='py-2'>Site</th>
-       <th className='py-2'>Username</th>
-       <th className='py-2'>Password</th>
-    </tr>
-  </thead>
-  <tbody className='bg-green-100'>
-    {passwordArray.map((item,index)=>{
-return <tr key={index}>
-      <td className=' py-2 border-white text-center w-32'><a href={item.site} target='_blank'>{item.site}</a></td>
-      <td className=' py-2 border-white text-center w-32'>{item.username}</td>
-      <td className=' py-2 border-white text-center w-32'>{item.password}</td>
-    </tr>
-    })}
-    
-  </tbody>
-</table>
-}
- 
-</div>
+        <div className="password">
+          <h2 className='py-4 font-bold text-2xl'>Your Password</h2>
+          {passwordArray.length === 0 && <div>No Passwords Saved Yet</div>}
+          {passwordArray.length != 0 && <table className="table-auto w-full overflow-hidden rounded-md">
+            <thead className='bg-green-800 text-white'>
+              <tr>
+                <th className='py-2'>Site</th>
+                <th className='py-2'>Username</th>
+                <th className='py-2'>Password</th>
+              </tr>
+            </thead>
+            <tbody className='bg-green-100'>
+              {passwordArray.map((item, index) => {
+                return <tr key={index}>
+                  <td className='py-2 border border-white text-center'>
+                    <div className='flex items-center justify-center '>
+                      <a href={item.site} target='_blank'>{item.site}</a>
+                      <div className='lordiconcopy size-7 cursor-pointer' onClick={() => { copyText(item.site) }}>
+                        <lord-icon
+                          style={{ "width": "25px", "height": "25px", "paddingTop": "3px", "paddingLeft": "3px" }}
+                          src="https://cdn.lordicon.com/iykgtsbt.json"
+                          trigger="hover" >
+                        </lord-icon>
+                      </div>
+                    </div>
+                  </td>
+                  <td className='py-2 border border-white text-center'>
+                    <div className='flex items-center justify-center '>
+                      <span>{item.username}</span>
+                      <div className='lordiconcopy size-7 cursor-pointer' onClick={() => { copyText(item.username) }}>
+                        <lord-icon
+                          style={{ "width": "25px", "height": "25px", "paddingTop": "3px", "paddingLeft": "3px" }}
+                          src="https://cdn.lordicon.com/iykgtsbt.json"
+                          trigger="hover" >
+                        </lord-icon>
+                      </div>
+                    </div>
+                  </td>
+                  <td className='py-2 border border-white text-center'>
+                    <div className='flex items-center justify-center '>
+                      <span>{item.password}</span>
+                      <div className='lordiconcopy size-7 cursor-pointer' onClick={() => { copyText(item.password) }}>
+                        <lord-icon
+                          style={{ "width": "25px", "height": "25px", "paddingTop": "3px", "paddingLeft": "3px" }}
+                          src="https://cdn.lordicon.com/iykgtsbt.json"
+                          trigger="hover" >
+                        </lord-icon>
+                      </div>
+                    </div>
+                  </td>
+                </tr>
+              })}
+
+            </tbody>
+          </table>
+          }
+
+        </div>
       </div>
     </>
   )
