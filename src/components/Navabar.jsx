@@ -1,7 +1,7 @@
 import React from 'react'
 
 const Navabar = () => {
-   return (
+  return (
         <nav className='bg-slate-800 text-white '>
             <div className="mycontainer flex justify-between items-center px-4 py-5 h-14">
 

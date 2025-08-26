@@ -28,17 +28,41 @@ const Manager = () => {
   };
 
   const savePassword = () => {
-    if (!form.site || !form.username || !form.password) {
-      toast.error("⚠️ Please fill all fields before saving!", { position: "top-right", autoClose: 5000, theme: "dark", transition: Bounce });
-      return;
-    }
-    const newPassword = { ...form, id: uuidv4() };
-    setPasswordArray([...passwordArray, newPassword]);
-    localStorage.setItem("password", JSON.stringify([...passwordArray, newPassword]));
-    toast.success("✅ Password saved successfully!", { position: "top-right", autoClose: 5000, theme: "dark", transition: Bounce });
-    setform({ site: "", username: "", password: "" });
-  };
+  if (!form.site || !form.username || !form.password) {
+    toast.error("⚠️ Please fill all fields before saving!", { 
+      position: "top-right", 
+      autoClose: 5000, 
+      theme: "dark", 
+      transition: Bounce 
+    });
+    return;
+  }
 
+  if (form.site.length <= 3 || form.username.length <= 3 || form.password.length <= 3) {
+    toast.error("⚠️ Each field must be at least 4 characters long!", { 
+      position: "top-right", 
+      autoClose: 5000, 
+      theme: "dark", 
+      transition: Bounce 
+    });
+    return;
+  }
+
+  const newPassword = { ...form, id: uuidv4() };
+  setPasswordArray([...passwordArray, newPassword]);
+  localStorage.setItem("password", JSON.stringify([...passwordArray, newPassword]));
+
+  toast.success("✅ Password saved successfully!", { 
+    position: "top-right", 
+    autoClose: 5000, 
+    theme: "dark", 
+    transition: Bounce 
+  });
+
+  setform({ site: "", username: "", password: "" });
+};
+
+ 
   const deletePassword = (id) => {
     let c = confirm("Are you sure you want to delete this password?");
     if (c) {
